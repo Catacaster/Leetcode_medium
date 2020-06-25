@@ -1,0 +1,21 @@
+/*
+attempt	: 1
+time	: 20ms
+O	: logN
+method	: binary search
+*/
+
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        vector<int> res (2, -1);
+        auto it = lower_bound(nums.begin(), nums.end(), target);
+        if(it == nums.end() || *it != target)   return (res);
+        else    res[0] = it - nums.begin();
+        
+        it = upper_bound(nums.begin(), nums.end(), target);
+        if(it == nums.end())    res[1] = nums.size()-1; //all rest is target
+        else    res[1] = (it - nums.begin() - 1);
+        return (res);
+    }
+};

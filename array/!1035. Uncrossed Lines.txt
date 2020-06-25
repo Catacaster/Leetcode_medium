@@ -1,0 +1,32 @@
+/*
+attempt	: 1
+time	: FAILED(time exceeded)
+O	: M^N
+method	: recursion
+improve	: DP
+*/
+
+class Solution {
+public:
+    int maxUncrossedLines(vector<int>& A, vector<int>& B) {
+        return(helper(A, B, 0, 0));
+    }
+
+    int helper(vector<int>& A, vector<int>& B, int AL, int BL){
+        if(AL>=A.size() || BL>=B.size())
+            return 0;
+        //fly
+        int fly_max = helper(A, B, AL+1, BL);
+        //find
+        int find_max, i;
+        for(i=BL; i<B.size(); i++){
+            if(A[AL] == B[i])
+                break;
+        }
+        if(i == B.size())   //nothing found
+            find_max = 0;
+        else 
+            find_max = 1 + helper(A, B, AL+1, i+1);
+        return(fmax(fly_max, find_max));
+    }
+};

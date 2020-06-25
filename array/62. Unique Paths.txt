@@ -1,0 +1,19 @@
+/*
+attempt	: 1
+time	: 0ms
+O	: m*n
+method	: DP
+*/
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> log (m, vector<int>(n , 1));
+        for(int i=1; i<m ; i++){
+            for(int j=1; j<n ;j++){
+                log[i][j] = log[i-1][j] + log[i][j-1];
+            }
+        }
+        return (log[m-1][n-1]);
+    }
+};

@@ -1,0 +1,51 @@
+/*
+attempt	: 1
+time	: 12ms	91%
+O	: N
+method	: comment
+*/
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        Node* sentinel = new Node(0);
+        Node* new_ptr = sentinel;
+        //deep copy node without a random pointer
+        for(auto ptr = head; ptr; ptr = ptr->next){
+            new_ptr->next = new Node(ptr->val);
+            new_ptr = new_ptr->next;
+        }
+        //copy random pointer
+        auto ptr = head;
+        new_ptr  = sentinel->next;
+        while(ptr){
+            if(ptr->random){    //if ptr's random is not nullptr
+                Node* tptr = head, *tnew_ptr = sentinel->next;
+                while(tptr != ptr->random){
+                    tptr     = tptr->next;
+                    tnew_ptr = tnew_ptr->next;
+                }
+                new_ptr->random = tnew_ptr;
+            }
+            ptr     = ptr->next;
+            new_ptr = new_ptr->next;
+        }
+        return sentinel->next;
+    }
+};

@@ -1,0 +1,24 @@
+/*
+attempt	: 1
+time	: 76ms 33.37%
+O	: N (best)
+method	: sliding window
+*/
+
+class Solution {
+public:
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int X) {
+        grumpy[0] *= customers[0];
+        //remake grumpy array so that its a DP list of customers unsatisfied
+        //remake customers array so that customers[size - 1] is total customers
+        for(int i=1; i<customers.size(); i++){
+            grumpy[i] = grumpy[i-1] + grumpy[i]*customers[i];
+            customers[i] += customers[i-1];
+        }
+        int max(grumpy[X-1]); //max customers satisfied using his skill
+        for(int i=X; i<grumpy.size(); i++){
+            max = fmax(max, grumpy[i] - grumpy[i-X]);
+        }
+        return (customers[customers.size()-1] - grumpy[grumpy.size()-1] + max);
+    }
+};

@@ -1,0 +1,21 @@
+/*
+attempt	: 1
+time	: NA
+O	: N (best is N)
+method	: algorithm is good, see the comment
+improve	: try to start at zero instead of one next time
+*/
+class Solution {
+public:
+    int numTimesAllBlue(vector<int>& light) {
+        int result(light[0] == 1 ? 1:0);    //starting
+        int num(1), max(light[0]);
+        for(int i=1; i<light.size(); i++){
+            num++;                      //total bulb++
+            max = fmax(max, light[i]);  //update max light element
+            if(num == max)              //if number of bulb on == max on, result++
+                result++;
+        }
+        return result;
+    }
+};

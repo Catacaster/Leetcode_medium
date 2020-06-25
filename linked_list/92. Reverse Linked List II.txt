@@ -1,0 +1,42 @@
+/*
+attempt	: 1
+time	: 0ms
+O	: N one pass
+method	: comment
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        ListNode* sentinel = new ListNode(0, head); //sentinel node
+        ListNode* ptr = head, *pptr = sentinel;
+        for(int i=1; i < m; i++){
+            pptr = pptr->next;
+        }
+        ptr = pptr->next;
+        //ptr is now the m th node, pptr is now the m-1 th node
+        ListNode* next_ptr = nullptr, *mptr = ptr;   //mptr always points to m th node
+        for(int i=m; i < n; i++){   //go through points from m to n-1
+            ListNode* temp = ptr->next;
+            ptr->next = next_ptr;   //ptr's next points to nextptr
+            next_ptr  = ptr;        //move next_ptr to front
+            ptr = temp; //ptr is now the next node
+        }
+        //ptr is now n th node, next_node is the head of the reverse list
+        ListNode* rest_ptr = ptr->next;
+        pptr->next = ptr;       //pptr->next points to n th node
+        ptr->next  = next_ptr;   //ptr->next points to the reversed list
+        mptr->next = rest_ptr;
+        return (sentinel->next);
+    }
+};

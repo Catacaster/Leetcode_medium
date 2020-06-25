@@ -1,0 +1,43 @@
+/*
+attempt	: 2
+time	: 88ms 86%
+O	: NlogN
+method	: binary search
+*/
+
+class Solution {
+public:
+    int shipWithinDays(vector<int>& weights, int D) {
+        int l=0, r=0;
+        for(int i=0; i<weights.size(); i++){
+            l = max(weights[i], l); //lower boundary is max value for a single element
+            r += weights[i];        //upper boundary is sum of all elements
+        }
+        while(l < r){
+            int queue=0, day=0, m=(l+r)/2;
+            for(int i=0; i<weights.size(); i++){
+                queue += weights[i];
+                if(queue > m){
+                    day++;
+                    queue = weights[i]; //goes to the next day
+                }
+            }
+            if(queue)   day++;  //if there is queue, day++
+            //update l & r
+            if(day > D) l = m+1;    //exceeded D
+            else        r = m;      //day fits
+        }
+        return l;
+    }
+};
+
+
+
+
+/*
+attempt	: 1 [FAILED]
+time	: NA
+O	: NA
+method	: NA
+improve	: use [binary search] to find minimum output needed, l = max element, r = total weight (lower and upper boundary)
+*/

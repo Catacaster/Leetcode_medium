@@ -1,0 +1,52 @@
+/*
+attempt	: 1
+time	: 140ms 35%
+o	: n^4
+method 	: going through every point and check following
+	  	if itself is a one, count++, else break
+	  	then check the next layer, see if all points are ones, if so count++, else break
+	  	continue checking process until hit a zero or beyond boundary
+improve	: DP algorithm
+*/
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int result = 0;
+        int m = matrix.size(), n = matrix[0].size();
+        int largest = fmin(m, n);
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                for(int length=1; length<=largest; length++){
+                    bool isAllZero = true;
+                    if(i + length - 1 >= m || (j + length - 1 >= n))
+                        break;      //going out of boundary
+                    //inner square has all ones in it
+                    //only check for the new shell
+                    for(int a=0; a<length; a++){
+                        if(matrix[i+length-1][j+a] == 0){
+                            isAllZero = false;
+                            break;
+                        }
+                    }
+                    if(isAllZero){
+                        for(int a=0; a<length-1; a++){
+                            if(matrix[i+a][j+length-1] == 0){
+                                isAllZero = false;
+                                break;
+                            }
+                        }
+                    }
+                    if(isAllZero){
+                        result++;
+                    }
+                    else{
+                        break;      //if the smaller square has zero in it
+                                    //no need to check for even larger square based on it
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};
+

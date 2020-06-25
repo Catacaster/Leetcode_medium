@@ -1,0 +1,34 @@
+/*
+attempt: 1
+time   : 0ms 100%
+O      : n^2
+method : going though all points that can be a middle number(from element 1 to n-2)
+	 result += all points less than it on left*all points greater than it on right +
+		   all points greater than it on right*all points less than it on left
+*/
+
+class Solution {
+public:
+    int numTeams(vector<int>& rating) {
+        int result(0);
+        int size(rating.size());
+        for(int i=0; i<size-1; i++){
+            int left_gt(0), right_lt(0), left_lt(0), right_gt(0);
+            int number = rating[i];
+            for(int j=0; j<i; j++){
+                if(rating[j] < number)
+                    left_lt++;
+                else
+                    left_gt++;
+            }
+            for(int j=i+1; j<size; j++){
+                if(rating[j] > number)
+                    right_gt++;
+                else
+                    right_lt++;
+            }
+            result += left_gt*right_lt + left_lt*right_gt;
+        }
+        return result;
+    }
+};

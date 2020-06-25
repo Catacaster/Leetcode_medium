@@ -1,0 +1,63 @@
+/*
+attempt	: 1
+time	: 36ms 88%
+O	: NlogN
+method	: merge sort
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        return mergeSort(head, nullptr);
+    }
+    ListNode* mergeSort(ListNode* head, ListNode* tail/*exclusive*/){
+        if(head == tail) return nullptr;    //no node
+        if(head->next == tail){             //one node
+            head->next = nullptr;
+            return head;
+        }
+        ListNode* slow = head, *fast = head->next;
+        while(fast != tail && fast->next != tail){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        //first list: head--slow, second list: slow->next--tail;
+        ListNode* slow_next = slow->next;
+        ListNode* L1 = mergeSort(head, slow->next); //note: ends with nullptr,          original slow->next is modified to nullptr
+        ListNode* L2 = mergeSort(slow_next, tail);  //note: ends with nullptr
+        
+        ListNode* headptr, *ptr;
+        if(!L2 || (L1 && L1->val < L2->val)){
+            headptr = L1;
+            L1 = L1->next;
+        }
+        else{
+            headptr = L2;
+            L2 = L2->next;
+        }
+        ptr = headptr;
+        while(L1 || L2){
+            if(!L2 || (L1 && L1->val < L2->val)){   //insert L1
+                ptr->next = L1;
+                L1  = L1->next;
+                ptr = ptr->next;
+            }
+            else{
+                ptr->next = L2;
+                L2  = L2->next;
+                ptr = ptr->next;
+            }
+        }
+        return headptr;
+    }
+};

@@ -1,0 +1,29 @@
+/*
+attempt	: 1
+time	: 148ms 82.12%
+O	: N
+method	: go through all 1s record prev 1 and compare distance between them;
+*/
+
+class Solution {
+public:
+    bool kLengthApart(vector<int>& nums, int k) {
+        bool isFirst = false;
+        int prevOne;
+        for(int i=0; i<nums.size(); i++){
+            if(nums[i] == 1){
+                if(!isFirst){
+                    isFirst = true;
+                    prevOne = i;
+                }
+                else{
+                    if(i - prevOne - 1 < k)
+                        return false;
+                    else
+                        prevOne = i;
+                }
+            }
+        }
+        return true;
+    }
+};

@@ -1,0 +1,22 @@
+/*
+attempt : 1
+time	: 76ms
+O	: NlogN
+method	: binary search
+*/
+
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int left=0, right=arr.size()-k;
+        while(left < right){
+            int middle = (left + right)/2;
+            //note the array is from arr[middle] to arr[middle+k]
+            //so comparing the leftmost to the node
+            //to another node that was not in the list
+            if(x - arr[middle] > arr[middle+k] - x) left = middle+1;
+            else right = middle;
+        }
+        return vector<int>(arr.begin()+left, arr.begin()+left+k);
+    }
+};

@@ -1,0 +1,30 @@
+/*
+attempt	: 1
+time	: 4ms
+O	: N (best)
+method	: recursion
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        //end case
+        if(!head || !(head->next)) return head;
+        //middle case
+        ListNode* nptr = swapPairs(head->next->next);
+        ListNode* newHead = head->next;
+        newHead->next = head;   //second's next is first
+        head->next    = nptr;   //first's next is next pair
+        return (newHead);
+    }
+};

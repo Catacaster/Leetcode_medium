@@ -1,0 +1,35 @@
+/*
+attempt	: 1
+time	: 272ms	88.36%
+O	: n
+method	: create a vector of 100001(largest element would be 100000)
+	  and ++ vector[arr[i]];
+	  get all non zero elements and push each into a vector
+	  sort that vector
+		(note: push into a vector and sort it is faster than insert into a set)
+	  sum up from largest count until hit half of arr.size()
+*/
+class Solution {
+public:
+    int minSetSize(vector<int>& arr) {
+        std::vector<int> record(100001, 0);
+        std::vector<int> log;
+        int size = arr.size();
+        for(int i=0; i<size; i++){
+            record[arr[i]]++;
+        }
+        for(int i=0; i<100001; i++){
+            if(record[i] != 0)
+                log.push_back(record[i]);
+        }
+        int sum(0), result(0);
+        std::sort(log.begin(), log.end());
+        for(int i=log.size()-1; i>=0; i--){
+            sum += log[i];
+            result++;
+            if(sum >= size/2)
+                break;
+        }
+        return result;
+    }
+};

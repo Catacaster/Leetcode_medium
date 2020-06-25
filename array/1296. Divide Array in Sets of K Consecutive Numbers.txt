@@ -1,0 +1,42 @@
+/*
+attempt	: 1
+time	: 412ms
+O	: nlogn
+method	: insert data into a map<int, int> == map<a number, how many time it appears>
+	  try to find all subpairs, if fail return false, else return true;
+*/
+
+class Solution {
+public:
+    bool isPossibleDivide(vector<int>& nums, int k) {
+        int size = nums.size();
+        if(size%k != 0)
+            return false;
+        map<int, int> log;
+        //insert data into the map
+        for(int i=0; i<size; i++){
+            auto it = log.find(nums[i]);
+            if(it == log.end())
+                log.insert(make_pair(nums[i], 1));
+            else
+                it->second++;
+        }
+        //try to find all consecutive subsets
+        //if fails, return false
+        for(int i=0; i<size; i+=k){
+            auto it = log.begin();
+            while(it->second == 0){
+                it++;
+            }
+            //now ptr points to the first non zero;
+            for(int j=0; j<k; j++){
+                auto ptr = log.find(j+it->first);
+                if(ptr == log.end() || ptr->second == 0)
+                    return false;   //if dne, or zero, then false
+                else
+                    ptr->second--;
+            }
+        }
+        return true;
+    }
+};

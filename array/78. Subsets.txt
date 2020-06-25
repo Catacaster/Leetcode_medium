@@ -1,0 +1,33 @@
+/*
+attempt	: 1
+time	: 4ms	85.76%
+O	: n!
+method	: recursion
+*/
+
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        std::vector<std::vector<int>> result;
+        std::vector<int> pool;
+        result.push_back(pool);
+        helper(result, pool, nums);
+        return (result);
+    }
+    
+    void helper(std::vector<std::vector<int>>& result, std::vector<int>& pool, vector<int>& nums){  
+        if(nums.empty())    //nothing in nums
+            return;
+        //itself
+        pool.push_back(nums.back());    
+        result.push_back(pool);         
+        ///itself + rest
+        int temp = nums.back();         
+        nums.pop_back();
+        helper(result, pool, nums);   
+        //rest
+        pool.pop_back();
+        helper(result, pool, nums);  
+        nums.push_back(temp);
+    }
+};

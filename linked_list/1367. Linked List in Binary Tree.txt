@@ -1,0 +1,47 @@
+/*
+attempt	: 1
+time	: 48ms
+O	: N
+method	: recursion
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSubPath(ListNode* head, TreeNode* root) {
+        if(!root) return false;     //if out of root
+        if(head->val == root->val){ //if head->val is root's val
+            if(isSequence(head, root))
+                return true;
+        }
+        return (isSubPath(head, root->left) || isSubPath(head, root->right));
+    }
+    bool isSequence(ListNode*head, TreeNode* root){
+        if(!head) return true;  //out of list
+        if(!root) return false; //out of tree while extra list
+        if(head->val == root->val)
+            return (isSequence(head->next, root->left) || (isSequence(head->next, root->right)));
+        //else not matching
+        return false;
+    }
+};

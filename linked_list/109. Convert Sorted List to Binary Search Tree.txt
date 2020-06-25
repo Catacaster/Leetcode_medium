@@ -1,0 +1,24 @@
+/*
+attempt	: 1
+time	: 28ms
+O	: nlogn
+method	: recursion
+improve	: Use slow and fast ptr to locate the middle one, instead of counting
+*/
+
+class Solution {
+public:
+    TreeNode* sortedListToBST(ListNode* head) {
+        return helper(head, nullptr);
+    }
+    TreeNode* helper(ListNode* head, ListNode* tail/*exclusive*/){
+        if(head == tail)    return nullptr; //head == tail(which is exclusive)
+        
+        int count = 0;          //count number of nodes
+        for(auto ptr=head; ptr != tail; ptr=ptr->next)   count++;
+        
+        ListNode* ptr = head;   //ptr points to the middle node
+        for(int i=0; i < count/2; i++)      ptr = ptr->next;
+        return (new TreeNode(ptr->val, helper(head, ptr), helper(ptr->next, tail)));
+    }
+};

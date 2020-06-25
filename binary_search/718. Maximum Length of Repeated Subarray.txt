@@ -1,0 +1,29 @@
+/*
+attempt	: 1
+time	: 208ms	80%
+O	: N^2
+method	: Arthur's sliding window
+improve	: DP 1D-> 2D
+*/
+
+class Solution {
+public:
+    int findLength(vector<int>& A, vector<int>& B) {
+        return (max(sliding(A, B), sliding(B, A)));
+    }
+    int sliding(vector<int> &A, vector<int> &B){
+        int result=0;
+        for(int offset=0; offset<A.size(); offset++){
+            for(int ia=offset, ib=0; ia<A.size() && ib<B.size(); ia++, ib++){
+                if(A[ia] == B[ib]){
+                    int cur=0;
+                    while(ia<A.size() && ib<B.size() && A[ia] == B[ib]){
+                        cur++, ia++, ib++; //keep increasing until met one that does not match
+                    }
+                    result = max(cur, result);
+                }
+            }
+        }
+        return result;
+    }
+};

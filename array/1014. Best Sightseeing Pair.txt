@@ -1,0 +1,18 @@
+/*
+attempt	: 1
+time	: 120ms
+O	: N
+method	: DP
+*/
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& A) {
+        int res(0);
+        for(int i=1; i<A.size(); i++){
+            res  = fmax(res, A[i-1]+A[i]-1);
+            A[i] = fmax(A[i-1]-1, A[i]);
+        }
+        return res;
+    }
+};

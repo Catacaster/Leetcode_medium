@@ -1,0 +1,40 @@
+/*
+attempt	: 1
+time	: 36ms
+O	: N
+method	: divide(loop) and merge(recursion)
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    void reorderList(ListNode* head) {
+        if(!head) return;
+        ListNode* fast = head, *slow = head;
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode* second_head = slow->next, *first_head = head;
+        slow->next = nullptr;
+        helper(&first_head, second_head);
+    }
+    void helper(ListNode** head, ListNode* reverse){
+        if(!reverse)   return; //end of recursion
+        else{
+            helper(head, reverse->next);
+            reverse->next = (*head)->next;  //reverse's next node points to forward's next
+            (*head)->next = reverse;        //head's next points to reverse
+            *head = (*head)->next->next;    //update head
+        }
+    }
+};

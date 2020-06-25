@@ -1,0 +1,32 @@
+/*
+attempt	: 1
+time	: NA
+O	: M*N
+method	: tracking number of servers in each row, and number of servers in each col
+	  implement each cell, if its one and the row/col it on has >1 servers
+	  result++
+*/
+
+class Solution {
+public:
+    int countServers(vector<vector<int>>& grid) {
+        std::vector<int> row(grid.size(), 0);
+        std::vector<int> col(grid[0].size(), 0);
+        for(int i=0; i<grid.size(); i++){
+            for(int j=0; j<grid[0].size(); j++){
+                if(grid[i][j]){
+                    row[i]++;
+                    col[j]++;
+                }
+            }
+        }
+        int result(0);
+        for(int i=0; i<grid.size(); i++){
+            for(int j=0; j<grid[i].size(); j++){
+                if(grid[i][j] &&(row[i] > 1 || (col[j] > 1)))
+                    result++;
+            }
+        }
+        return result;
+    }
+};

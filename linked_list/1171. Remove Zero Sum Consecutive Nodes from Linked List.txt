@@ -1,0 +1,31 @@
+/*
+attempt	: 1
+time	: 68ms
+O	: N
+method	: comment
+improve	: can go through once, so instead of create a new map each time, delete the elements in the old one so reuse the old one
+*/
+
+class Solution {
+public:
+    ListNode* removeZeroSumSublists(ListNode* head) {
+        bool found = true;
+        head = new ListNode(0, head);
+        while(found){
+            found = false;
+            map<int, ListNode*> log;    //hash-table
+            int val = 0;
+            for(auto ptr=head; ptr; ptr=ptr->next){
+                val += ptr->val;
+                auto it = log.find(val);
+                if(it == log.end())     log.insert(make_pair(val, ptr));    //not found
+                else{   //found
+                    it->second->next = ptr->next;
+                    found = true;
+                    break;
+                    }
+                }
+            }
+        return head->next;
+    }
+};

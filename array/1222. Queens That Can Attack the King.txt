@@ -1,0 +1,44 @@
+/*
+attempt	: 1
+time	: 8ms 47.69%
+O	: n
+method	: create a 8*8 board of zeros, fill in positions of queen with a one
+	  start at position of the king, and search in all(8) directions to search for the first queen it counters
+improve : directly implement position of queen, and keep the queen in each direction that is closest to the king
+*/
+
+class Solution {
+public:
+    vector<vector<int>> queensAttacktheKing(vector<vector<int>>& queens, vector<int>& king) {
+        std::vector<std::vector<int>> board(8, std::vector<int>(8, 0));  //a board of all zeros;
+        std::vector<std::vector<int>> result;
+        for(int i=0; i<queens.size(); i++){
+            board[queens[i][0]][queens[i][1]] = 1;  //set positions with a queen to one
+        }
+        for(int i=-1; i<=1; i++){
+            for(int j=-1; j<=1; j++){
+                if(i == 0 && (j == 0))
+                    continue;
+                int x = king[0], y = king[1];
+                bool toContinue = true;
+                while(toContinue){
+                    x += i;
+                    y += j;
+                    if(x < 0 || (x>=8) || (y<0) || (y>=8)){
+                        toContinue = false;     //if out of boundary
+                    }
+                    else if(board[x][y] == 1){
+                        std::vector<int> temp(2);
+                        temp[0] = x;
+                        temp[1] = y;
+                        result.push_back(temp);
+                        toContinue = false;     //if meets a queen
+                    }
+                }
+            }
+        }
+        return result;
+    }
+};
+
+	

@@ -1,0 +1,34 @@
+/*
+attempt	: 1
+time	: 4ms 78.71%
+O	: N
+method	: get all fabonacci numbers until the next one is greater than k
+	  keep k -= log[i], and stop when minus down to zero
+*/
+class Solution {
+public:
+    int findMinFibonacciNumbers(int k) {
+        vector<int> log(2, 1);
+        int i = 1;
+        while(log[i] < k){
+            log.push_back(log[i] + log[i-1]);
+            i++;
+        }
+        if(log[i] != k){
+            log.pop_back();
+            i--;
+        }
+        else
+            return 1;   //it's a fibonacci number
+        int remain = k;
+        int result = 0;
+        while(remain != 0){
+            if(remain >= log[i]){
+                remain -= log[i];
+                result++;
+            }
+            i--;
+        }
+        return result;
+    }
+};

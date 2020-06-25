@@ -1,0 +1,25 @@
+/*
+attempt	: 1
+time	: 20ms
+O	: NlogN
+method	: binary search
+improve	: can improve the middle counting part
+*/
+
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int l=1, r=nums.size()-1, size=nums.size();
+        while(l < r){
+            int m=(l+r)/2, count_lse=0, count_grt=0;
+            //from l to m[inclusive] AND from m[exclusive] to r;
+            for(int i=0; i<size; i++){
+                if(nums[i] <= m && (nums[i] >= l))     count_lse++;    //less or equal
+                else if(nums[i]>m && (nums[i] <= r))   count_grt++;    //greater than
+            }
+            if(count_grt > r-m) l=m+1;  //if greater part is abnormal
+            else    r=m;    //if greater part is not abnormal
+        }
+        return l;
+    }
+};

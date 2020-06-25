@@ -1,0 +1,29 @@
+/*
+attempt : 1
+time	: 24ms
+O	: NlogN
+method	: binary search
+improve	: use two pointers to achieve O(N)
+*/
+
+class Solution {
+public:
+    int minSubArrayLen(int s, vector<int>& nums) {
+        for(int i=1; i<nums.size(); i++){
+            nums[i] += nums[i-1];
+        }
+        if(nums.empty() || nums.back() < s) return 0;
+        
+        int left=1, right=nums.size();
+        while(left < right){
+            int mid = (left+right)/2;
+            int sum = nums[mid-1];
+            for(int i=mid; i<nums.size(); i++){
+                sum = max(nums[i] - nums[i-mid], sum);  //sliding window
+            }
+            if(sum < s) left = mid+1;   //insufficient
+            else        right= mid;     //else
+        }
+        return left;
+    }
+};

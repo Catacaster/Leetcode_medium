@@ -1,0 +1,23 @@
+/*
+attempt	: 1
+time	: 92ms
+O	: N^logN
+method	: binary search
+*/
+class Solution {
+public:
+    int minEatingSpeed(vector<int>& piles, int H) {
+        int l=1, r=0, size=piles.size();
+        for(int i=0; i<size; i++)
+            r=max(r, piles[i]);
+        while(l < r){           
+            int m = (l+r)/2, hours=0;
+            for(int i=0; i<size; i++){
+                hours += piles[i]/m + (piles[i]%m?1:0);
+            }
+            if(hours > H) l=m+1; //if exceeded time, increase lower limit to m+1
+            else          r=m;   //else reduce upper limit to m 
+        }
+        return l;   //l == r at here
+    }
+};

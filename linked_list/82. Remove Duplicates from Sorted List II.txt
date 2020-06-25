@@ -1,0 +1,40 @@
+/*
+attempt	: 1
+time	: 12ms
+O	: N
+method	: if not duplicate, enter in a new list
+	  else skip all duplicates
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* sentinel = new ListNode;
+        ListNode* ptr = sentinel;
+        while(head){
+            if(!head->next || (head->val != head->next->val)){
+                ptr->next = head;
+                ptr  = ptr->next;
+                head = head->next;
+            }
+            else{   //if duplicate, go through until next is not duplicate or nullptr
+                while(head->next && head->val==head->next->val){
+                    head = head->next;
+                }
+                head = head->next;
+            }
+        }
+        ptr->next = nullptr;
+        return sentinel->next;
+    }
+};

@@ -1,0 +1,32 @@
+/*
+attempt	: 1
+time	: 32ms
+O	: NlogN
+method	: binary search
+*/
+
+class Solution {
+public:
+    int findBestValue(vector<int>& arr, int target) {
+        int l=0, r=arr[0], size = arr.size();
+        for(int i=1; i<size; i++){
+            r = max(arr[i], r);
+        }
+        int result(r), closest(size*r); //result: number to return, closest: smallest gap
+        while(l <= r){
+            int m = (l+r)/2, sum=0, diff;
+            for(int i=0; i<size; i++){
+                sum += m<arr[i]? m: arr[i];
+            }
+            diff = abs(target-sum);
+            if(diff < closest || (diff == closest && m < result)){
+                closest = diff;
+                result  = m;
+            }
+            cout << "\nm:" << m <<" diff: " << diff;
+            if(sum >= target)    r = m-1;   //if equal, there might be a smaller answer
+            else if(sum < target)l = m+1;
+        }
+        return result;
+    }
+};

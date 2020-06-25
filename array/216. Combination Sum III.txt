@@ -1,0 +1,47 @@
+/*
+attempt	: 1
+time	: 0ms	100
+O	: 9! >
+method	: recursion
+*/
+
+class Solution {
+public:
+    vector<vector<int>> combinationSum3(int k, int n) {
+        std::vector<std::vector<int>> result;
+        std::vector<int> pool;
+        helper(result, pool, 1, k, n);
+        return result;
+    }
+    /*
+    result: 
+    pool: 
+    l: lower boundary, rest will be selected from (l to 9)
+    k: number of picks left
+    n: total values left
+    */
+    void helper(std::vector<std::vector<int>>& result, std::vector<int>& pool, int l, int k, int n) {
+        if(k == 0)
+            return;
+        else if(k == 1){
+            if(n <= 9 && (n >= l)){
+                pool.push_back(n);
+                result.push_back(pool);
+                pool.pop_back();
+            }
+            return;
+        }
+        else{
+            for(int i=l; i<=9; i++){
+                if(n < (i+i+k-1)*k/2){
+                    return;
+                }
+                else{
+                    pool.push_back(i);
+                    helper(result, pool, i+1, k-1, n-i);
+                    pool.pop_back();
+                }
+            }
+        }
+    }
+};

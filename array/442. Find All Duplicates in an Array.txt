@@ -1,0 +1,26 @@
+/*
+attempt	: 1
+time	: 120ms	54.50%
+O	: N
+method	: create a log of vector<bool> (size, false)
+	  when visisted once change it to true
+	  if true and visit again, push the number to result;
+improve	: make recording on input array itself
+	  if visit once change nums[abs(nums[i])] to a negative number
+	  so if visit when its negative then duplicate
+*/
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        int size = nums.size();
+        std::vector<bool> log(size + 1, false);
+        std::vector<int> result;
+        for(int i=0; i<size; i++){
+            if(log[nums[i]])
+                result.push_back(nums[i]);
+            else
+                log[nums[i]] = true;
+        }
+        return result;
+    }
+};

@@ -1,0 +1,26 @@
+/*
+Attempt	: 1
+Runtime	: 16ms 88.29%
+method 	: keep tracking position of each number,and update ALL positions of numbers that is before the targetting element
+*/
+
+class Solution {
+public:
+    vector<int> processQueries(vector<int>& queries, int m) {
+        std::vector<int> result;    
+        std::vector<int> positions(m);
+        for(int i=0; i<m; i++){
+            positions[i] = i;
+        }
+        for(int i=0; i<queries.size(); i++){
+            int position = positions[queries[i] - 1];
+            result.push_back(position);     //update result
+            for(int j=0; j<m; j++){
+                if(positions[j] < position)
+                    positions[j]++;//goes one behind
+            }
+            positions[queries[i] - 1]=0;
+        }
+        return result;
+    }
+};

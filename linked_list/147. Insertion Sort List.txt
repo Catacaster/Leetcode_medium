@@ -1,0 +1,47 @@
+/*
+attempt	: 1
+time	: 148ms
+O	: n^2
+method	: insertion sort
+improve	: instead of swapping each time, go from top and insert it to the right position
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* insertionSortList(ListNode* head) {
+        if(!head) return head;  //nothing in the list
+        while(helper(head));
+        return head;
+    }
+    //return false if anything is corrected
+    bool helper(ListNode* &head){
+        if(!head->next)  return false;      //reach end
+        if(head->val > head->next->val){    //next is smaller than itself
+            auto nptr = head->next;
+            head->next = nptr->next;    //move head's node to next
+            nptr->next = head;          //move nptr's node to front
+            head = nptr;                //head is now nptr
+            return true;
+        }
+        else if(!helper(head->next)){    //if nothing in the back is changed == list is sorted
+            return false;
+        }
+        else if(head->val > head->next->val){   //if changed and next is smaller than itself
+            auto nptr = head->next;
+            head->next = nptr->next;
+            nptr->next = head;
+            head = nptr;
+        }
+        return true;
+    }
+};

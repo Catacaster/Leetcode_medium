@@ -1,0 +1,23 @@
+/*
+attempt : 1
+time	: 24ms	92.87%
+O	: N
+method	:
+*/
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        std::vector<int> result(nums.size());
+        int prev(1), rest(1);
+        for(int i=0; i<nums.size(); i++){
+            result[i] = prev;
+            prev     *= nums[i];
+        }
+        for(int i=nums.size()-1; i>=0; i--){
+            result[i] *= rest;
+            rest      *= nums[i];
+        }
+        return (result);
+    }
+};

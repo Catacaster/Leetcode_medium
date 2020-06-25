@@ -1,0 +1,37 @@
+/*
+attempt	: 1
+time	: 8ms 71.43%
+O	: n^2
+method	: check from each i to k and see if result is zero meaning a==b
+	  if so result += k-i
+improve	: algorithm is generally right
+	  can improve math by just create one array A, which A[i] = A[0]^A[1]...^A[i-1]^A[i]
+	  and see if A[i] == A[k], and if so result += k-i-1
+		PROOF:
+		n ^ 0 == n
+		A[i]  == A[0]^...A[i]
+		A[k]  == A[0]^...A[k]
+		which means that
+		A[i+1]^A[i+2]...^A[k] == 0, so result += k-i-1
+	therefore, can use unordered_map to collect result that appeared before to achieve O(n);
+*/
+class Solution {
+public:
+    int countTriplets(vector<int>& arr) {
+        if(arr.size() < 2)
+            return 0;
+        int result(0);
+        int size(arr.size());
+        for(int i=0; i<size-1; i++){
+            std::vector<int> log(size);
+            log[i] = arr[i];
+            for(int j=i+1; j<size; j++){
+                log[j] = log[j-1] ^ arr[j];
+                if(log[j] == 0){
+                    result += j - i;
+                }
+            }
+        }
+        return result;
+    }
+};

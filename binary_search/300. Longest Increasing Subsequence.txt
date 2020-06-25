@@ -1,0 +1,26 @@
+/*
+attempt : 1
+time	: 56ms
+O	: N^2 (best NlogN)
+method	: dp
+improve : use lowerbound
+*/
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int> dp(nums.size(), 1);
+        for(int i=1; i<nums.size(); i++){
+            int max=0;
+            for(int j=0; j<i; j++){
+                if(nums[j] < nums[i])   max=fmax(dp[j], max);
+            }
+            dp[i] = max+1;
+        }
+        int result=0;
+        for(int i=0; i<nums.size(); i++){
+            result = fmax(result, dp[i]);
+        }
+        return result;
+    }
+};

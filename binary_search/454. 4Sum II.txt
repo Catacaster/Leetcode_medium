@@ -1,0 +1,30 @@
+/*
+attempt	: 1
+time	: 660ms
+O	: N^2
+method	: hash table
+improve : change map<int, int> to unordered map<int, int>, because
+	  we use a lot of map.find() in this situation, 
+		unordered_map.find() is average O(1), map.find() is average O(N)
+*/
+class Solution {
+public:
+    int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D) {
+        map<int, int> AB;   //CHANGE TO unordered map
+        for(int i=0; i<A.size(); i++){
+            for(int j=0; j<B.size(); j++){
+                auto it = AB.find(A[i]+B[j]);
+                if(it == AB.end())  AB.insert({A[i] + B[j], 1});//if not found;
+                else    it->second++;
+            }
+        }
+        int result = 0;
+        for(int i=0; i<C.size(); i++){
+            for(int j=0; j<D.size(); j++){
+                auto it = AB.find(-C[i]-D[j]);  //try to find a complement
+                if(it != AB.end())  result+=it->second;
+            }
+        }
+        return result;
+    }
+};

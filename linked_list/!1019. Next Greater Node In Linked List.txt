@@ -1,0 +1,48 @@
+attempt	: 1
+time	: >1500ms 
+O	: N^2
+improve	: N
+	  use a vector to record indices of elements that has not found a best yet
+	  so in a vector name stack:
+		if(i < j)
+			stack[i] >= stack[j]
+	  in a loop, when entering a new node, 
+	  	firstly try up see if stack[last] < node->val, if so, update result[stack[last]], and popout
+	  	seek if stack[new_last] < node->val,
+	  
+	  	continue doing so until stack[last] > node->val OR stack is empty
+		
+		before end the loop, put node->val's index to stack, and pop_back node->val in to result
+	  
+	  when complete in another loop, go through stack, 
+		assign result[stack[i]] = 0
+	  
+	  
+
+
+/*  Definition for singly-linked list.
+  struct ListNode {
+      int val;
+      ListNode next;
+      ListNode()  val(0), next(nullptr) {}
+      ListNode(int x)  val(x), next(nullptr) {}
+      ListNode(int x, ListNode next)  val(x), next(next) {}
+  };
+*/ 
+class Solution {
+public
+    vectorint nextLargerNodes(ListNode head) {
+        vectorint res;
+        for(ListNode ptr = head; ptr; ptr = ptr-next){
+            ListNode tptr;
+            for(tptr = ptr; tptr; tptr = tptr-next){
+                if(tptr-val  ptr-val)
+                    break;
+            }
+            if(tptr)    res.push_back(tptr-val);
+            else        res.push_back(0);
+                
+        }
+        return res;
+    }
+};

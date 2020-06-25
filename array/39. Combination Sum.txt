@@ -1,0 +1,31 @@
+/*
+attempt	: 1
+time	: 12ms	75%
+O	: na
+method	: DFS
+*/
+class Solution {
+public:
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        std::vector<std::vector<int>> result;
+        std::vector<int> pool;
+        helper(result, candidates, pool, 0, target);
+        return result;
+    }
+    
+    void helper(vector<vector<int>>& result, vector<int>& candidates, vector<int>& pool, int l, int rest){
+        if(rest < 0)
+            return;
+        else if(rest == 0){
+            result.push_back(pool);;
+            return;
+        }
+        else{
+            for(int i=l; i<candidates.size(); i++){
+                pool.push_back(candidates[i]);
+                helper(result, candidates, pool, i, rest - candidates[i]);
+                pool.pop_back();
+            }
+        }
+    }
+};

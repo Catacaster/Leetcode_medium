@@ -1,0 +1,28 @@
+/*
+attempt : 1
+time	: 24ms	73%
+O	: logM + logN
+method	: binary search
+*/
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if(matrix.empty() || matrix[0].empty()) return false;   //check bad data
+        int row_left=0, row_right=matrix.size()-1;
+        while(row_left < row_right){
+            int mid = (row_left+row_right)/2;
+            if(matrix[mid][matrix[0].size()-1] < target) row_left = mid + 1;
+            else                        row_right= mid;
+        }
+        //now row left
+        int col_left=0, col_right=matrix[0].size()-1;
+        while(col_left <= col_right){           
+            int mid = (col_left+col_right)/2;
+            if(matrix[row_left][mid] == target)    return true;
+            else if(matrix[row_left][mid] < target) col_left = mid+1;
+            else    col_right = mid-1;
+        }
+        return false;
+    }
+};

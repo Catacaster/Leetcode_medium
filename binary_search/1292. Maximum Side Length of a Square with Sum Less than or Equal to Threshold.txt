@@ -1,0 +1,35 @@
+/*
+attempt	: 1
+time	: 184ms
+O	: M*N
+method	: DP (next time can try sliding windows)
+*/
+
+class Solution {
+public:
+    int maxSideLength(vector<vector<int>>& mat, int threshold) {
+        int row = mat.size(), col = mat[0].size();
+        vector<vector<int>> dp(row+1, vector<int>(col+1, 0));
+        for(int i=row-1; i>=0; i--){
+            for(int j=col-1; j>=0; j--)
+                dp[i][j] = dp[i+1][j] + dp[i][j+1] - dp[i+1][j+1] + mat[i][j];
+        }
+        int max_size = min(row, col), result=0;
+        for(int size=1; size <= max_size; size++){
+            bool found = false;
+            for(int i=row-size; i>=0; i--){
+                for(int j=col-size; j>=0; j--){
+                    if(dp[i][j]-dp[i+size][j]-dp[i][j+size]+dp[i+size][j+size] <= threshold){
+                        result = size;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            if(!found) return result;   //NOTE: this act reduce time from 600ms to 180 ms
+                                    //cause if there is not subsquare of size x satisfing
+                                    //there should not be subsquare of size y (y>x) satisfing
+        }
+        return result;
+    }
+};
