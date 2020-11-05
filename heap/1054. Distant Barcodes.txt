@@ -1,0 +1,41 @@
+/*
+attempt	: 1
+time	: 380ms
+method	: heap, frequent push and pop
+improve	: heap with gready,
+	  put the most frequent element on 0, 2, 4, 6...,
+	  when out of length
+	  start on 1, 3, 5...
+*/
+
+class Solution {
+public:
+    vector<int> rearrangeBarcodes(vector<int>& barcodes) {
+        std::priority_queue<std::pair<int, int>> heap;  //pair<frequency, number>
+        std::unordered_map<int, int> hash;  //hash table<number, value>
+        std::vector<int> result;
+        //fill hash table
+        int length = barcodes.size();
+        for(int i=0; i<length; i++){
+            hash[barcodes[i]]++;
+        }
+        //fill heap;
+        for(auto it = hash.begin(); it!=hash.end(); it++){
+            heap.push(std::make_pair(it->second, it->first));
+        }
+        std::pair<int, int> last(0, 0);
+        while(!heap.empty()){
+            result.push_back(heap.top().second);
+            std::pair<int, int> temp(heap.top());
+            temp.first--;  //frequency--
+            heap.pop();
+            //if last has spares, push back to heap
+            if(last.first){
+                heap.push(last);
+            }
+            last = temp;
+        }
+        if(last.first)  result.push_back(last.second);
+        return result;
+    }
+};

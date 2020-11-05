@@ -1,0 +1,33 @@
+/*
+attempt	: 1
+time 	: 40ms
+O	: 26n
+method	: sliding window
+*/
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        vector<int> table (26, 0);
+        for(int i=0; i<s.size(); i++){
+            table[s[i] - 'A']++;
+        }
+        int result = 0;
+        for(int i=0; i<26; i++){
+            if(!table[i])   continue;   //if zero skip
+            char target = i + 'A';
+            int  left = 0, right=0, operation = k - (s[0] != target);
+            while(right < s.size()){
+                if(operation >= 0){
+                    result = max(result, right++ - left + 1);
+                    operation -= (s[right] != target); 
+                }
+                else{
+                    operation += (s[left] != target);
+                    left++;
+                }
+            }
+        }
+        return result;
+    }
+};

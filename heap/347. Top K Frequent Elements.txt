@@ -1,0 +1,31 @@
+/*
+attempt	: 1
+time	: 32ms 92%
+O	: n log n
+method	: hash->reverse hash into heap->get max k
+*/
+
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        std::unordered_map<int, int> log; //hash<value,frequency>
+        std::priority_queue<std::pair<int, int>> heap;   //heap::pair<frequency, value>
+        std::vector<int> result; //result
+        
+        //fill hash table
+        int n = nums.size();
+        for(int i=0; i<n; i++){
+            log[nums[i]]++;
+        }
+        //fill heap
+        for(auto it = log.begin(); it!=log.end(); it++){
+            heap.push(std::make_pair(it->second, it->first));
+        }
+        //fill result
+        while(k-- > 0){
+            result.push_back(heap.top().second);    //push back value
+            heap.pop(); //pop out
+        }
+        return result;
+    }
+};

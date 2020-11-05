@@ -1,0 +1,26 @@
+/*
+attempt	: 1
+time	: 328ms 90.96%
+O	: N log N
+*/
+
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int K) {
+        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>,                                                     std::greater<std::pair<int, int>>> heap;  //pair::<distance, index>
+        int n = points.size();
+        //construct heap
+        for(int i=0; i<n; i++){
+            heap.push(std::make_pair(points[i][0]*points[i][0] + points[i][1]*points[i][1], i));
+        }
+        
+        //pop out first K elements from the heap, insert into result
+        std::vector<std::vector<int>> result;
+        while(K-- > 0){
+            result.push_back(points[heap.top().second]);    //points[index]
+            heap.pop(); //pop out max
+        }
+        return result;
+    }
+};
+

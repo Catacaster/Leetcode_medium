@@ -1,0 +1,36 @@
+/*
+attempt : 1
+time	: 4ms
+method	: heap
+*/
+
+class Solution {
+public:
+    string reorganizeString(string S) {
+        string result;
+        std::unordered_map<char, int> hash; //char - frequency
+        std::priority_queue<std::pair<int, char>> heap; //frequency - char
+        //construct hash
+        int n = S.size();
+        for(int i=0; i<n; ++i){
+            hash[S[i]]++;   //frequency++
+        }
+        //construct heap
+        for(auto it=hash.begin(); it!=hash.end(); it++){
+            if((it->second)*2 > n+1)  return result;  //impossible to return
+            heap.push(std::make_pair(it->second, it->first));
+        }
+        //get result
+        std::pair<int, char> last(0, 0);   //last = heap.top(), and pop top after using top
+        while(!heap.empty()){
+            std::pair<int, char> temp_max(heap.top());
+            result += temp_max.second;  //push_back char
+            
+            //update heap
+            heap.pop(); //pop out after used;
+            if(--last.first > 0) heap.push(last);  //if still have extra counts of that char, push into heap
+            last = temp_max;    //update last;
+        }
+        return result;
+    }
+};

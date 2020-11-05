@@ -1,0 +1,29 @@
+/*
+attempt	: 1
+time	: >1000ms
+method	: heap
+improve : arrray/index
+*/
+
+class Solution {
+public:
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        std::priority_queue<long, std::vector<long>, std::greater<long>> heap;
+        //push a 1 into the heap
+        heap.push(1);
+        long last = 0;   //prevent duplicate
+        while(n > 0){
+            long temp = heap.top();
+            heap.pop(); //remove top();
+            
+            if(temp == last) continue;   //prevent duplicate
+            else last = temp;
+            
+            if(n-- == 1)    return temp; //if the last one, return
+            for(int i=0; i<primes.size(); i++){
+                heap.push(temp*primes[i]);
+            }
+        }
+        return 0;   //if input n == 0
+    }
+};

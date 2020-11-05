@@ -1,0 +1,19 @@
+/*
+attempt	: 1
+time	: 248ms
+O	: n lg n
+method	: sort + two pointers
+*/
+
+class Solution {
+public:
+    int numRescueBoats(vector<int>& people, int limit) {
+        sort(people.begin(), people.end());
+        int left=0, right=people.size()-1, res=0;
+        while(left <= right){
+            if(people[right--] + people[left] <= limit)   left++;   
+            res++;
+        }
+        return res;
+    }
+};

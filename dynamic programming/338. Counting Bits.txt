@@ -1,0 +1,20 @@
+/*
+attempt	: 1
+time	: 4ms 	97%
+O	: n
+method	: dp
+*/
+
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        vector<int> result(num+1);
+        result[0] = 0;
+        int rep = 2;
+        for(int i=1; i <= num; i++){
+            if(i == rep)    rep*=2;
+            result[i] = 1 + result[i - rep/2];
+        }
+        return result;
+    }
+};

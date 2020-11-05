@@ -1,0 +1,41 @@
+/*
+attempt	: 1
+time	: 308ms
+method	: dihkstra
+*/
+
+class Solution {
+public:
+    int networkDelayTime(vector<vector<int>>& times, int N, int K) {
+        std::vector<bool>  mark(N+1, false);    //false == not visited
+        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>,                   std::greater<std::pair<int, int>>> heap;        //min heap; pair::<time, node index>
+        std::vector<std::vector<std::pair<int, int>>> graph(N+1); //new graph; pair::<destination, time>
+        int count = 0;  //number of nodes visited
+        int t_result = 0;   //result 
+        //fill the first node in the heap
+        heap.push(std::make_pair(0, K));
+        //rearrange the old graph into a new graph
+        int size = times.size();
+        for(int i=0; i<size; i++){
+            graph[times[i][0]].push_back(std::make_pair(times[i][1], times[i][2]));
+        }
+        //loop until no more node to be visited
+        while(!heap.empty()){
+            int time = heap.top().first;    //time to reach this node
+            int node = heap.top().second;   //node to be visited
+            heap.pop();
+            if(!mark[node]){
+                count++;       
+                t_result = std::max(time, t_result); //update max time
+                mark[node] = true;  //mark as visited
+                //push new nodes
+                int num_destinations = graph[node].size();  //size of subarray
+                for(int i=0; i<num_destinations; i++){
+                    heap.push(std::make_pair(time + graph[node][i].second, graph[node][i].first));
+                }
+            }
+        }
+        if(count == N) return t_result; //all nodes visited, then return time
+        else return -1;
+    }
+};

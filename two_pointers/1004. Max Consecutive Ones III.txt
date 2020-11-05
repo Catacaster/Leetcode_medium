@@ -1,0 +1,30 @@
+/*
+attempt : 1
+time	: 144ms
+O	: N
+method	: dp + two_pointers
+improve	: sliding window
+*/
+
+class Solution {
+public:
+    int longestOnes(vector<int>& A, int K) {
+        int length = 0;
+        vector<int> dp(A.size()+1, 0);
+        for(int i=0; i<A.size(); i++)
+            dp[i+1] = dp[i] + A[i]; 
+        int left=0, right=1;
+        while(right < dp.size()){
+            int zeros = right - left - (dp[right] - dp[left]);  //#elements - #ones
+            if(zeros <= K){
+            //if zeros to fill is not greater than k
+                length = max(length, right-left);
+                right++;
+            }
+            else if(++left == right){
+                right++;  //if too many zeros, left + 1, if left==right, right+1
+            }
+        }
+        return length;
+    }
+};

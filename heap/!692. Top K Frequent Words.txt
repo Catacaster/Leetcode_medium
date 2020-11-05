@@ -1,0 +1,37 @@
+/*
+attempt	: 1
+time	: 24ms
+method	: heap + self define compare of priority queue
+*/
+
+class Solution {
+private:
+    struct my_comp{
+        bool operator() (std::pair<int, string>& a, std::pair<int, string>& b){
+            if(a.first != b.first) return a.first < b.first;   //compare frequency first;
+            return a.second > b.second; //compare string then
+        }
+    };
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        std::unordered_map<string, int> hash;   //<word, frequency>
+        std::priority_queue<std::pair<int, string>, std::vector<std::pair<int, string>>, my_comp> heap;   //frequency - word
+        std::vector<string> result;
+        
+        //construct hash
+        int n = words.size();
+        for(int i=0; i<n; i++){
+            hash[words[i]]++;   //frequency++
+        }
+        //construct heap
+        for(auto it = hash.begin(); it!=hash.end(); it++){
+            heap.push(std::make_pair(it->second, it->first));
+        }
+        //construct result
+        while(k-- >0){
+            result.push_back(heap.top().second);
+            heap.pop();
+        }
+        return result;
+    }
+};
